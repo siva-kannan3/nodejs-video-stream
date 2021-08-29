@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Siva K",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siva-kannan3/nodejs-video-stream.git"
+},
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "nodemon": "^2.0.12"
+    "express": "^4.17.1"
   }
 }
