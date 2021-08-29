@@ -8,12 +8,16 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/index.html"));
 });
 
-app.get("/video", (req, res) => {
+app.get("/getVideo", (req, res) => {
   const videoPath = "nature.mp4";
+
+  // statsSync give the info of file which includes the size of that file
   const stat = fs.statSync(videoPath);
+
   const fileSize = stat.size;
   const range = req.headers.range;
 
+  // check for if range is specified
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
     const start = parseInt(parts[0], 10);
@@ -27,7 +31,10 @@ app.get("/video", (req, res) => {
     }
 
     const chunksize = end - start + 1;
+
+    // reading the streams with mentioned range
     const file = fs.createReadStream(videoPath, { start, end });
+
     const head = {
       "Content-Range": `bytes ${start}-${end}/${fileSize}`,
       "Accept-Ranges": "bytes",
@@ -36,13 +43,17 @@ app.get("/video", (req, res) => {
     };
 
     res.writeHead(206, head);
+
+    // Piping the readed stream to response output
     file.pipe(res);
   } else {
     const head = {
       "Content-Length": fileSize,
       "Content-Type": "video/mp4",
     };
+
     res.writeHead(200, head);
+
     fs.createReadStream(path).pipe(res);
   }
 });
